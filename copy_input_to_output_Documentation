@@ -53,4 +53,5 @@ click deploy
 
 open input s3 bucket and upload file and refresh the output bucket- it will display the files uploaded into the output bucket
 
-https://s3.console.aws.amazon.com/s3/buckets?region=us-east-2&region=us-east-2
+s3_url: https://s3.console.aws.amazon.com/s3/buckets?region=us-east-2&region=us-east-2
+Lambda_function_url: https://us-east-2.console.aws.amazon.com/lambda/home?region=us-east-2#/functions/demo-lamda-functn?tab=code
