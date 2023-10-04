@@ -1,0 +1,54 @@
+lab- copy s3 bucket file to another s3 bucket
+search s3 aws console
+create a bucket- bucket name: tech_input and tech_output - create *2
+
+search lambda- create lamba function - from scratch
+function name:
+runtime: python 3.9
+
+search iam role- click roles at the left side 
+create role - click lambda - click next
+search s3 and select the full access option - click next
+name your role and next create
+
+back to your Lamba choose existing role on the execution role and select the new role you just created then click create function
+add trigger - s3
+bucket type - select the bucket u created earlier on s3- for me i selected the input data bucket
+acknowledge and add
+
+go back to lambda: Add function (code)
+
+import boto3
+import urllib.parse
+
+print("*" * 80)
+print("Initializing..")
+print("*" * 80)
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+    # TODO implement
+    source_bucket = event['Records'][0]['s3']['bucket']['name']
+    object_key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'])
+    target_bucket = '#modify my-target-bucket'
+    copy_source = {'Bucket': source_bucket, 'Key': object_key}
+    print("Source bucket: ", source_bucket)
+    print("Target bucket: ", target_bucket)
+    print("Log Stream name: ", context.log_stream_name)
+    print("Log Group name: ", context.log_group_name)
+    print("Request ID: ", context.aws_request_id)
+    print("Mem. limits(MB): ", context.memory_limit_in_mb)
+    try:
+        print("Using waiter to wait for the object to persist through S3 service")
+        waiter = s3.get_waiter('object_exists')
+        waiter.wait(Bucket=source_bucket, Key=object_key)
+        s3.copy_object(Bucket=target_bucket, Key=object_key, CopySource=copy_source)
+        return "Success"
+    except Exception as err:
+        print("Error -" + str(err))
+        return str(err)
+
+click deploy
+
+open input s3 bucket and upload file and refresh the output bucket- it will display the files uploaded into the output bucket
