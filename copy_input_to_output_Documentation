@@ -52,3 +52,5 @@ def lambda_handler(event, context):
 click deploy
 
 open input s3 bucket and upload file and refresh the output bucket- it will display the files uploaded into the output bucket
+
+https://s3.console.aws.amazon.com/s3/buckets?region=us-east-2&region=us-east-2
